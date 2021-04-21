@@ -4,14 +4,16 @@ import dash_html_components as html
 import plotly.express as px
 import pandas as pd
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 
-app.layout = html.Div(children=[
-        html.H1(children='Le Grand Dashbat'),
-                ])
+app.layout = html.Div(
+    children=[
+        html.H1(children="Le Grand Dashbat"),
+    ]
+)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run_server(debug=True)
