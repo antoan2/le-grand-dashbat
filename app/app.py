@@ -1,6 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from bar_graph import BarGraph
 import plotly.express as px
 import pandas as pd
 
@@ -22,6 +23,7 @@ app.layout = html.Div(
             ],
             value=["2"],
         ),
+        BarGraph(),
     ]
 )
 
