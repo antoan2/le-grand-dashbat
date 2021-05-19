@@ -3,14 +3,14 @@ from datetime import datetime
 from enum import Enum
 from typing import Literal, Optional
 
-DatasetName = Literal['democratie', 'transition', 'fiscalite', 'organisation']
+DatasetName = Literal["democratie", "transition", "fiscalite", "organisation"]
 
 
 class AuthorType(Enum):
-    CITOYEN = 'Citoyen / Citoyenne'
-    ORGA_NON_LUCRATIF = 'Organisation à but non lucratif'
-    ELU = 'Élu / élue et Institution'
-    ORGA_LUCRATIF = 'Organisation à but lucratif'
+    CITOYEN = "Citoyen / Citoyenne"
+    ORGA_NON_LUCRATIF = "Organisation à but non lucratif"
+    ELU = "Élu / élue et Institution"
+    ORGA_LUCRATIF = "Organisation à but lucratif"
 
 
 @dataclass
