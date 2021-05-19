@@ -70,8 +70,8 @@ class Dataset:
         self.questions = Questions[self.name]
 
     @classmethod
-    def get_dataset_names(cls) -> List[str]:
-        return typing.get_args(DatasetName)
+    def get_dataset_names(cls) -> List[DatasetName]:
+        return list(typing.get_args(DatasetName))
 
     @property
     def num_contribution(self) -> int:

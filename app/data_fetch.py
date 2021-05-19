@@ -1,4 +1,3 @@
-import typing
 import logging
 import os
 from pathlib import Path
@@ -9,9 +8,7 @@ import pandas as pd
 
 from data_types import DatasetName
 
-_BUCKET_URL = (
-    "http://opendata.auth-6f31f706db6f4a24b55f42a6a79c5086.storage.sbg.cloud.ovh.net"
-)
+_BUCKET_URL = "http://opendata.auth-6f31f706db6f4a24b55f42a6a79c5086.storage.sbg.cloud.ovh.net"
 _DATA_FOLDER = Path(__file__).parent.parent / "data"
 URLS: Dict[DatasetName, str] = {
     "transition": f"{_BUCKET_URL}/2019-04-08/QUESTIONNAIRE_LA_TRANSITION_ECOLOGIQUE.csv",
@@ -47,4 +44,5 @@ def _download_dataset(dataset: DatasetName) -> None:
 
 def fetch_dataset(dataset: DatasetName) -> pd.DataFrame:
     _download_dataset(dataset)
-    return pd.read_csv(_local_filename(dataset))
+    nb_rows = int(os.environ["FAST_MODE"]) if os.environ.get("FAST_MODE") else None
+    return pd.read_csv(_local_filename(dataset), nrows=nb_rows)
