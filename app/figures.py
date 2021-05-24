@@ -10,3 +10,8 @@ def get_figure_contributions():
 def get_figure_contributions_over_time():
     data = dal.get_num_contribution_over_time()
     return px.line(data, x="Date", y="Nombre contributions", color="Catégorie")
+
+
+def get_figure_contributions_per_type():
+    data = dal.get_num_contribution_per_type()
+    return px.bar(data, x="Type de contributeur", y="Nombre contributions")
