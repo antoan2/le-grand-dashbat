@@ -1,6 +1,8 @@
 import json
+from urllib.request import urlopen
 
 import plotly.express as px
+
 import data_layer as dal
 
 
@@ -32,8 +34,10 @@ def get_map(dataset_name: str):
     data = dal.get_map_per_theme()
     data = data[data["Thème"] == dataset_name]
 
-    with open("../data/french_departments.json") as json_file:
-        depts = json.load(json_file)
+    with urlopen(
+        "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
+    ) as response:
+        depts = json.load(response)
 
     fig = px.choropleth_mapbox(
         data,
