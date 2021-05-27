@@ -42,19 +42,13 @@ def get_num_contribution_per_type() -> pd.DataFrame:
     )
 
 
-def get_map_per_theme():
-    frames = []
-    for dataset_name in Dataset.get_dataset_names():
-        dataset = Dataset(dataset_name)
-        zipcode_contributions = Counter(
-            dataset.data.authorZipCode.apply(lambda x: str(x)[:2])
-        )
+def get_map_per_theme(dataset_name: str) -> pd.DataFrame:
+    dataset = Dataset(dataset_name)
+    zipcode_contributions = Counter(
+        dataset.data.authorZipCode.apply(lambda x: str(x)[:2])
+    )
 
-        dataframe = pd.DataFrame(
-            data=list(zipcode_contributions.items()),
-            columns=["Departement", "Nombre contributions"],
-        )
-        dataframe["Thème"] = dataset.name
-
-        frames.append(dataframe)
-    return pd.concat(frames)
+    return pd.DataFrame(
+        data=list(zipcode_contributions.items()),
+        columns=["Departement", "Nombre contributions"],
+    )
