@@ -3,7 +3,7 @@ from urllib.request import urlopen
 
 import plotly.express as px
 
-import data_layer as dal
+import dashbat.data_layer as dal
 
 
 def get_figure_contributions():
@@ -33,9 +33,7 @@ def get_figure_contributions_per_type():
 def get_map(dataset_name: str):
     data = dal.get_map_per_theme(dataset_name)
 
-    with urlopen(
-        "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
-    ) as response:
+    with urlopen("https://france-geojson.gregoiredavid.fr/repo/departements.geojson") as response:
         depts = json.load(response)
 
     fig = px.choropleth_mapbox(

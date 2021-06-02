@@ -2,7 +2,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
-from figures import (
+from dashbat.figures import (
     get_figure_contributions,
     get_figure_contributions_over_time,
     get_figure_contributions_per_type,
