@@ -3,6 +3,7 @@ from typing import cast
 
 import pandas as pd
 
+from dashbat.data_types import DatasetName
 from dashbat.datasets import Dataset
 
 
@@ -11,7 +12,9 @@ def get_num_contribution_per_theme() -> pd.DataFrame:
     for dataset_name in Dataset.get_dataset_names():
         dataset = Dataset(dataset_name)
         rows.append([dataset.name, dataset.num_contribution])
-    return pd.DataFrame(data=rows, columns=["Thème", "Nombre contribution"])
+    return pd.DataFrame(
+        data=rows, columns=["Thème", "Nombre contributions"]  # , dtype={"Thème": str, "Nombre de contributions": str}
+    )
 
 
 def _get_merged_dataset() -> pd.DataFrame:
@@ -42,7 +45,7 @@ def get_num_contribution_per_type() -> pd.DataFrame:
     )
 
 
-def get_map_per_theme(dataset_name: str) -> pd.DataFrame:
+def get_map_per_theme(dataset_name: DatasetName) -> pd.DataFrame:
     dataset = Dataset(dataset_name)
     zipcode_contributions = Counter(dataset.data.authorZipCode.apply(lambda x: str(x)[:2]))
 
