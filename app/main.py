@@ -6,6 +6,7 @@ from figures import (
     get_figure_contributions,
     get_figure_contributions_over_time,
     get_figure_contributions_per_type,
+    get_map,
 )
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -20,6 +21,7 @@ app.layout = html.Div(
         dcc.Graph(figure=get_figure_contributions()),
         dcc.Graph(figure=get_figure_contributions_over_time()),
         dcc.Graph(figure=get_figure_contributions_per_type()),
+        dcc.Graph(figure=get_map(dataset_name="organisation")),
     ]
 )
 

@@ -1,7 +1,8 @@
+from collections import Counter
 from typing import cast
+
 import pandas as pd
 
-from data_types import DatasetName
 from datasets import Dataset
 
 
@@ -38,4 +39,16 @@ def get_num_contribution_per_type() -> pd.DataFrame:
             "authorId": "Nombre contributions",
             "authorType": "Type de contributeur",
         }
+    )
+
+
+def get_map_per_theme(dataset_name: str) -> pd.DataFrame:
+    dataset = Dataset(dataset_name)
+    zipcode_contributions = Counter(
+        dataset.data.authorZipCode.apply(lambda x: str(x)[:2])
+    )
+
+    return pd.DataFrame(
+        data=list(zipcode_contributions.items()),
+        columns=["Departement", "Nombre contributions"],
     )
