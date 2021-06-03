@@ -68,3 +68,17 @@
         - On rajoute les classNames = 'my-5'
         - Change le thème
         - On met un graph dans une card
+- Slides de conclusions
+    - Résumé de ce qu'on a fait
+        - Setup / Layout
+        - Components / dbc
+        - Figure / plotly
+        - Callbacks -> graph interactifs
+    - Pour aller plus loin
+        - C'est du flask / react
+            - On peut intégrer des components -> Jordan
+            - On peut faire ce qu'on veut (rajouter authentification...)
+        - Multi pages / production
+    - Projets stylés qui utilisent Dash -> Line
+    - Le code est dispo là, thanks
+    - Questions
