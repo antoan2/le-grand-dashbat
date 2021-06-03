@@ -126,10 +126,11 @@ def _select_dataset_for_map(dataset_name: DatasetName, display_column) -> Compon
 def parse_args() -> argparse.ArgumentParser:
     args_parser = argparse.ArgumentParser()
     args_parser.add_argument("--port", type=int, default=8050)
-    args_parser.add_argument("--host", type=ip_address, default="127.0.0.1")
+    args_parser.add_argument("--host", type=ip_address, default=ip_address("127.0.0.1"))
+    args_parser.add_argument("--debug", action="store_true", default=False)
     return args_parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
-    app.run_server(debug=True, host="0.0.0.0", port="13524")
+    app.run_server(debug=args.debug, host=str(args.host), port=args.port)
