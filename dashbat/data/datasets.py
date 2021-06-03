@@ -5,8 +5,8 @@ from typing import Dict, List
 
 import pandas as pd
 
-from dashbat.data_fetch import fetch_dataset
-from dashbat.data_types import DatasetName
+from dashbat.data.data_fetch import fetch_dataset
+from dashbat.data.data_types import DatasetName
 
 Questions: Dict[DatasetName, List[str]] = {
     "transition": [

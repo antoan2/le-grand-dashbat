@@ -10,7 +10,7 @@ Création d'un env virtuel, et installation des requirements :
 
 Il faut lancer la préparation de la données utilisée par l'application :
 
-    PYTHONPATH='.:$PYTHONPATH' python dashbat/data_preparation.py
+    PYTHONPATH='.:$PYTHONPATH' python dashbat/data/data_preparation.py
 
 On peut maintenant lancer l'application :
 

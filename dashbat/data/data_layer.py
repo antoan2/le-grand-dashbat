@@ -1,9 +1,9 @@
 import pandas as pd
 
-from dashbat.data_types import DATASET_NAMES, DatasetName
-from dashbat.datasets import Dataset
+from dashbat.data.data_types import DATASET_NAMES, DatasetName
+from dashbat.data.datasets import Dataset
 
-from dashbat.data_preparation import (
+from dashbat.data.data_preparation import (
     P_NUM_CONTRIBUTION_PER_THEME,
     P_NUM_CONTRIBUTION_OVER_TIME,
     P_NUM_CONTRIBUTION_PER_TYPE,
