@@ -8,9 +8,18 @@ Création d'un env virtuel, et installation des requirements :
     pip install -r requirements.txt
     pre-commit install
 
+Il faut lancer la préparation de la données utilisée par l'application :
+
+    PYTHONPATH='.:$PYTHONPATH' python dashbat/data_preparation.py
+
 On peut maintenant lancer l'application :
 
-    python app/app.py
+    PYTHONPATH='.:$PYTHONPATH' python dashbat/main.py
+
+Le lancement de l'application permet de choisir le port et l'hôte :
+
+    PYTHONPATH='.:$PYTHONPATH' python dashbat/main.py --host 0.0.0.0 --port 8888
+
 
 ## Load dataset
 
