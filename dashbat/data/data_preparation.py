@@ -3,9 +3,9 @@ from typing import cast
 
 import pandas as pd
 
-from dashbat.data_types import DatasetName
-from dashbat.datasets import Dataset
-from dashbat.data_fetch import _DATA_FOLDER
+from dashbat.data.data_types import DatasetName
+from dashbat.data.datasets import Dataset
+from dashbat.data.data_fetch import _DATA_FOLDER
 
 P_NUM_CONTRIBUTION_OVER_TIME = _DATA_FOLDER.joinpath("num_contribution_over_time.pkl")
 P_NUM_CONTRIBUTION_PER_TYPE = _DATA_FOLDER.joinpath("num_contribution_per_type.pkl")

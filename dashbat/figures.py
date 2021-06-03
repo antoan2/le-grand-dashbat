@@ -3,8 +3,8 @@ from urllib.request import urlopen
 
 import plotly.express as px
 
-import dashbat.data_layer as dal
-from dashbat.data_types import DatasetName
+import dashbat.data.data_layer as dal
+from dashbat.data.data_types import DatasetName
 
 
 def get_figure_contributions_per_theme():

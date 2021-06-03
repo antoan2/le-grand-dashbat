@@ -8,7 +8,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from dash.development.base_component import Component
 
-from dashbat.data_types import DATASET_NAMES, DatasetName
+from dashbat.data.data_types import DATASET_NAMES, DatasetName
 from dashbat.bar_graph import BarGraph
 from dashbat.figures import (
     get_figure_contributions_per_theme,

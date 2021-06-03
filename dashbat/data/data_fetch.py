@@ -6,10 +6,12 @@ from urllib.request import HTTPError, urlretrieve
 
 import pandas as pd
 
-from dashbat.data_types import DatasetName
+from dashbat.data.data_types import DatasetName
 
-_BUCKET_URL = "http://opendata.auth-6f31f706db6f4a24b55f42a6a79c5086.storage.sbg.cloud.ovh.net"
-_DATA_FOLDER = Path(__file__).parent.parent / "data"
+_BUCKET_URL = (
+    "http://opendata.auth-6f31f706db6f4a24b55f42a6a79c5086.storage.sbg.cloud.ovh.net"
+)
+_DATA_FOLDER = Path(__file__).parent.parent.parent / "data"
 URLS: Dict[DatasetName, str] = {
     "transition": f"{_BUCKET_URL}/2019-04-08/QUESTIONNAIRE_LA_TRANSITION_ECOLOGIQUE.csv",
     "fiscalite": f"{_BUCKET_URL}/2019-04-08/QUESTIONNAIRE_LA_FISCALITE_ET_LES_DEPENSES_PUBLIQUES.csv",
