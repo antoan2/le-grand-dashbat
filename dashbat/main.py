@@ -9,8 +9,9 @@ from dash.dependencies import Input, Output
 from dash.development.base_component import Component
 
 from dashbat.data_types import DATASET_NAMES, DatasetName
+from dashbat.bar_graph import BarGraph
 from dashbat.figures import (
-    get_figure_contributions,
+    get_figure_contributions_per_theme,
     get_figure_contributions_over_time,
     get_figure_contributions_per_type,
     get_map,
@@ -68,30 +69,43 @@ def _map_group() -> Component:
                 width=6,
             ),
         ],
+        className="my-5",
     )
 
 
 app.layout = html.Div(
     children=[
-        dbc.NavbarSimple(brand="Le grand Dashbat"),
+        dbc.NavbarSimple(
+            brand="Le grand Dashbat", className="mb-6", color="primary", dark=True
+        ),
         _map_group(),
         dbc.Row(
             dbc.Col(
                 dcc.Graph(figure=get_figure_contributions_over_time()),
                 width={"size": 8, "offset": 2},
-            )
+            ),
+            className="my-5",
         ),
         dbc.Row(
             dbc.Col(
                 dcc.Graph(figure=get_figure_contributions_per_type()),
                 width={"size": 8, "offset": 2},
-            )
+            ),
+            className="my-5",
         ),
         dbc.Row(
             dbc.Col(
-                dcc.Graph(figure=get_figure_contributions()),
+                dcc.Graph(figure=get_figure_contributions_per_theme()),
                 width={"size": 8, "offset": 2},
-            )
+            ),
+            className="my-5",
+        ),
+        dbc.Row(
+            dbc.Col(
+                BarGraph(),
+                width={"size": 8, "offset": 2},
+            ),
+            className="my-5",
         ),
     ]
 )
