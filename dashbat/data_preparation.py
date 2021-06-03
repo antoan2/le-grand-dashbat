@@ -13,6 +13,16 @@ P_NUM_CONTRIBUTION_PER_THEME = _DATA_FOLDER.joinpath("num_contribution_per_time.
 P_MAP_PER_THEME = _DATA_FOLDER.joinpath("map_per_theme_{dataset_name}.pkl")
 
 
+def load_population_per_departement() -> pd.DataFrame:
+    population_per_departement = pd.read_csv(
+        _DATA_FOLDER.joinpath("population_per_departement.csv")
+    )
+    population_per_departement["CODDEP"] = population_per_departement["CODDEP"].apply(
+        lambda x: x.zfill(2)
+    )
+    return population_per_departement
+
+
 def prepare_num_contribution_per_theme() -> pd.DataFrame:
     rows = []
     for dataset_name in Dataset.get_dataset_names():
@@ -57,14 +67,24 @@ def prepare_num_contribution_per_type() -> pd.DataFrame:
 
 def prepare_map_per_theme(dataset_name: DatasetName) -> pd.DataFrame:
     dataset = Dataset(dataset_name)
+    population_per_departement = load_population_per_departement()
     zipcode_contributions = Counter(
         dataset.data.authorZipCode.apply(lambda x: str(x)[:2])
     )
 
-    return pd.DataFrame(
+    map = pd.DataFrame(
         data=list(zipcode_contributions.items()),
         columns=["Departement", "Nombre contributions"],
     )
+    map = (
+        map.set_index("Departement")
+        .join(population_per_departement.set_index("CODDEP"), how="left")
+        .reset_index()
+    )
+    map["Contributions 1 000 habitants"] = map["Nombre contributions"] / (
+        map["PTOT"] / 1_000
+    )
+    return map
 
 
 if __name__ == "__main__":

@@ -30,10 +30,24 @@ def _dataset_dropdown() -> Component:
     return dcc.Dropdown(id="dataset-dropdown", options=options, value="organisation")
 
 
+def _column_dropdown() -> Component:
+    options = [
+        {"value": column, "label": column}
+        for column in ["Nombre contributions", "Contributions 1 000 habitants"]
+    ]
+
+    return dcc.Dropdown(
+        id="dataset-display-column", options=options, value="Nombre contributions"
+    )
+
+
 def _map_group() -> Component:
     return html.Div(
         [
-            html.Div([html.H3("Dataset"), _dataset_dropdown()], className="col-3"),
+            html.Div(
+                [html.H3("Dataset"), _dataset_dropdown(), _column_dropdown()],
+                className="col-3",
+            ),
             html.Div(
                 dcc.Graph(figure=get_map(dataset_name="organisation"), id="map-graph"),
                 className="col-9",
@@ -61,11 +75,14 @@ app.layout = html.Div(
 
 @app.callback(
     Output("map-graph", "figure"),
-    Input("dataset-dropdown", "value"),
+    [
+        Input("dataset-dropdown", "value"),
+        Input("dataset-display-column", "value"),
+    ],
     prevent_initial_call="True",
 )
-def _select_dataset_for_map(dataset_name: DatasetName) -> Component:
-    return get_map(dataset_name)
+def _select_dataset_for_map(dataset_name: DatasetName, display_column) -> Component:
+    return get_map(dataset_name, display_column)
 
 
 def parse_args() -> argparse.ArgumentParser:
