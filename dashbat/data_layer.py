@@ -1,55 +1,36 @@
-from collections import Counter
-from typing import cast
-
 import pandas as pd
 
-from dashbat.data_types import DatasetName
+from dashbat.data_types import DATASET_NAMES, DatasetName
 from dashbat.datasets import Dataset
+
+from dashbat.data_preparation import (
+    P_NUM_CONTRIBUTION_PER_THEME,
+    P_NUM_CONTRIBUTION_OVER_TIME,
+    P_NUM_CONTRIBUTION_PER_TYPE,
+    P_MAP_PER_THEME,
+)
+
+NUM_CONTRIBUTION_PER_THEME = pd.read_pickle(P_NUM_CONTRIBUTION_PER_THEME)
+NUM_CONTRIBUTION_OVER_TIME = pd.read_pickle(P_NUM_CONTRIBUTION_OVER_TIME)
+NUM_CONTRIBUTION_PER_TYPE = pd.read_pickle(P_NUM_CONTRIBUTION_PER_TYPE)
+MAP_PER_THEME = dict()
+for dataset_name in Dataset.get_dataset_names():
+    MAP_PER_THEME[dataset_name] = pd.read_pickle(
+        str(P_MAP_PER_THEME).format(dataset_name=dataset_name)
+    )
 
 
 def get_num_contribution_per_theme() -> pd.DataFrame:
-    rows = []
-    for dataset_name in Dataset.get_dataset_names():
-        dataset = Dataset(dataset_name)
-        rows.append([dataset.name, dataset.num_contribution])
-    return pd.DataFrame(
-        data=rows, columns=["Thème", "Nombre contributions"]  # , dtype={"Thème": str, "Nombre de contributions": str}
-    )
-
-
-def _get_merged_dataset() -> pd.DataFrame:
-    keys = ["publishedAt", "authorId", "authorType", "authorZipCode"]
-    dataframes = []
-    for dataset_name in Dataset.get_dataset_names():
-        local_df = Dataset(dataset_name).data[keys]
-        local_df["Catégorie"] = dataset_name
-        dataframes.append(local_df)
-    return cast(pd.DataFrame, pd.concat(dataframes))
+    return NUM_CONTRIBUTION_PER_THEME
 
 
 def get_num_contribution_over_time() -> pd.DataFrame:
-    merged = _get_merged_dataset()
-    merged["Date"] = merged.publishedAt.apply(lambda x: x.date())
-    res = merged.groupby(["Date", "Catégorie"]).count().reset_index()
-    return res.rename(columns={"authorId": "Nombre contributions"})
+    return NUM_CONTRIBUTION_OVER_TIME
 
 
 def get_num_contribution_per_type() -> pd.DataFrame:
-    merged = _get_merged_dataset()
-    res = merged.groupby(["authorType"]).count().reset_index()
-    return res.rename(
-        columns={
-            "authorId": "Nombre contributions",
-            "authorType": "Type de contributeur",
-        }
-    )
+    return NUM_CONTRIBUTION_PER_TYPE
 
 
 def get_map_per_theme(dataset_name: DatasetName) -> pd.DataFrame:
-    dataset = Dataset(dataset_name)
-    zipcode_contributions = Counter(dataset.data.authorZipCode.apply(lambda x: str(x)[:2]))
-
-    return pd.DataFrame(
-        data=list(zipcode_contributions.items()),
-        columns=["Departement", "Nombre contributions"],
-    )
+    return MAP_PER_THEME[dataset_name]
