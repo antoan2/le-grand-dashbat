@@ -42,33 +42,57 @@ def _column_dropdown() -> Component:
 
 
 def _map_group() -> Component:
-    return html.Div(
+    return dbc.Row(
         [
-            html.Div(
-                [html.H3("Dataset"), _dataset_dropdown(), _column_dropdown()],
-                className="col-3",
+            dbc.Col(
+                [
+                    dcc.Markdown(
+                        """
+                        ## Contribution par département
+                        Affichons le nombre de contributions par département.
+                        """
+                    ),
+                    _dataset_dropdown(),
+                    _column_dropdown(),
+                ],
+                width={"size": 2, "offset": 2},
             ),
-            html.Div(
-                dcc.Graph(figure=get_map(dataset_name="organisation"), id="map-graph"),
-                className="col-9",
+            dbc.Col(
+                dcc.Graph(
+                    figure=get_map(
+                        dataset_name="organisation",
+                        display_column="Nombre contributions",
+                    ),
+                    id="map-graph",
+                ),
+                width=6,
             ),
         ],
-        className="row",
     )
 
 
 app.layout = html.Div(
     children=[
-        html.Div(
-            [
-                html.H1(children="Le Grand Dashbat"),
-                dcc.Graph(figure=get_figure_contributions()),
+        dbc.NavbarSimple(brand="Le grand Dashbat"),
+        _map_group(),
+        dbc.Row(
+            dbc.Col(
                 dcc.Graph(figure=get_figure_contributions_over_time()),
+                width={"size": 8, "offset": 2},
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
                 dcc.Graph(figure=get_figure_contributions_per_type()),
-                _map_group(),
-            ],
-            className="container",
-        )
+                width={"size": 8, "offset": 2},
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                dcc.Graph(figure=get_figure_contributions()),
+                width={"size": 8, "offset": 2},
+            )
+        ),
     ]
 )
 
