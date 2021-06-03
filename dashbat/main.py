@@ -9,8 +9,9 @@ from dash.dependencies import Input, Output
 from dash.development.base_component import Component
 
 from dashbat.data_types import DATASET_NAMES, DatasetName
+from dashbat.bar_graph import BarGraph
 from dashbat.figures import (
-    get_figure_contributions,
+    get_figure_contributions_per_theme,
     get_figure_contributions_over_time,
     get_figure_contributions_per_type,
     get_map,
@@ -42,33 +43,70 @@ def _column_dropdown() -> Component:
 
 
 def _map_group() -> Component:
-    return html.Div(
+    return dbc.Row(
         [
-            html.Div(
-                [html.H3("Dataset"), _dataset_dropdown(), _column_dropdown()],
-                className="col-3",
+            dbc.Col(
+                [
+                    dcc.Markdown(
+                        """
+                        ## Contribution par département
+                        Affichons le nombre de contributions par département.
+                        """
+                    ),
+                    _dataset_dropdown(),
+                    _column_dropdown(),
+                ],
+                width={"size": 2, "offset": 2},
             ),
-            html.Div(
-                dcc.Graph(figure=get_map(dataset_name="organisation"), id="map-graph"),
-                className="col-9",
+            dbc.Col(
+                dcc.Graph(
+                    figure=get_map(
+                        dataset_name="organisation",
+                        display_column="Nombre contributions",
+                    ),
+                    id="map-graph",
+                ),
+                width=6,
             ),
         ],
-        className="row",
+        className="my-5",
     )
 
 
 app.layout = html.Div(
     children=[
-        html.Div(
-            [
-                html.H1(children="Le Grand Dashbat"),
-                dcc.Graph(figure=get_figure_contributions()),
+        dbc.NavbarSimple(
+            brand="Le grand Dashbat", className="mb-6", color="primary", dark=True
+        ),
+        _map_group(),
+        dbc.Row(
+            dbc.Col(
                 dcc.Graph(figure=get_figure_contributions_over_time()),
+                width={"size": 8, "offset": 2},
+            ),
+            className="my-5",
+        ),
+        dbc.Row(
+            dbc.Col(
                 dcc.Graph(figure=get_figure_contributions_per_type()),
-                _map_group(),
-            ],
-            className="container",
-        )
+                width={"size": 8, "offset": 2},
+            ),
+            className="my-5",
+        ),
+        dbc.Row(
+            dbc.Col(
+                dcc.Graph(figure=get_figure_contributions_per_theme()),
+                width={"size": 8, "offset": 2},
+            ),
+            className="my-5",
+        ),
+        dbc.Row(
+            dbc.Col(
+                BarGraph(),
+                width={"size": 8, "offset": 2},
+            ),
+            className="my-5",
+        ),
     ]
 )
 

@@ -7,16 +7,9 @@ import dashbat.data_layer as dal
 from dashbat.data_types import DatasetName
 
 
-def get_figure_contributions():
+def get_figure_contributions_per_theme():
     data = dal.get_num_contribution_per_theme()
     return px.bar(data, x="Thème", y="Nombre contributions")
-
-
-def get_figure_contributions_over_time():
-    data = dal.get_num_contribution_over_time()
-    fig = px.line(data, x="Date", y="Nombre contributions", color="Catégorie")
-    fig.update_layout(hovermode="x unified")
-    return fig
 
 
 def get_figure_contributions_per_type():
@@ -28,6 +21,13 @@ def get_figure_contributions_per_type():
         text="Nombre contributions",
     )
     fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
+    return fig
+
+
+def get_figure_contributions_over_time():
+    data = dal.get_num_contribution_over_time()
+    fig = px.line(data, x="Date", y="Nombre contributions", color="Catégorie")
+    fig.update_layout(hovermode="x unified")
     return fig
 
 
