@@ -6,7 +6,7 @@ from urllib.request import HTTPError, urlretrieve
 
 import pandas as pd
 
-from data_types import DatasetName
+from dashbat.data_types import DatasetName
 
 _BUCKET_URL = "http://opendata.auth-6f31f706db6f4a24b55f42a6a79c5086.storage.sbg.cloud.ovh.net"
 _DATA_FOLDER = Path(__file__).parent.parent / "data"

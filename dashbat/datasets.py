@@ -1,12 +1,12 @@
+import typing
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List
-import typing
 
 import pandas as pd
 
-from data_fetch import fetch_dataset
-from data_types import DatasetName
+from dashbat.data_fetch import fetch_dataset
+from dashbat.data_types import DatasetName
 
 Questions: Dict[DatasetName, List[str]] = {
     "transition": [

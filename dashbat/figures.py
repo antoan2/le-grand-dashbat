@@ -3,12 +3,13 @@ from urllib.request import urlopen
 
 import plotly.express as px
 
-import data_layer as dal
+import dashbat.data_layer as dal
+from dashbat.data_types import DatasetName
 
 
 def get_figure_contributions():
     data = dal.get_num_contribution_per_theme()
-    return px.bar(data, x="Thème", y="Nombre contribution")
+    return px.bar(data, x="Thème", y="Nombre contributions")
 
 
 def get_figure_contributions_over_time():
@@ -30,12 +31,10 @@ def get_figure_contributions_per_type():
     return fig
 
 
-def get_map(dataset_name: str):
+def get_map(dataset_name: DatasetName):
     data = dal.get_map_per_theme(dataset_name)
 
-    with urlopen(
-        "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
-    ) as response:
+    with urlopen("https://france-geojson.gregoiredavid.fr/repo/departements.geojson") as response:
         depts = json.load(response)
 
     fig = px.choropleth_mapbox(

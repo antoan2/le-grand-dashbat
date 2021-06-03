@@ -3,6 +3,12 @@ from datetime import datetime
 from enum import Enum
 from typing import Literal, Optional
 
+DATASET_NAMES = {
+    "democratie": "Démocratie",
+    "transition": "Transition écologique",
+    "fiscalite": "Fiscalité",
+    "organisation": "Organisation",
+}
 DatasetName = Literal["democratie", "transition", "fiscalite", "organisation"]
 
 
