@@ -31,10 +31,12 @@ def get_figure_contributions_per_type():
     return fig
 
 
-def get_map(dataset_name: DatasetName):
+def get_map(dataset_name: DatasetName, display_column: str = "Nombre contributions"):
     data = dal.get_map_per_theme(dataset_name)
 
-    with urlopen("https://france-geojson.gregoiredavid.fr/repo/departements.geojson") as response:
+    with urlopen(
+        "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
+    ) as response:
         depts = json.load(response)
 
     fig = px.choropleth_mapbox(
@@ -42,7 +44,7 @@ def get_map(dataset_name: DatasetName):
         geojson=depts,
         featureidkey="properties.code",
         locations="Departement",
-        color="Nombre contributions",
+        color=display_column,
         mapbox_style="carto-positron",
         zoom=4,
         center={"lat": 46, "lon": 2},
