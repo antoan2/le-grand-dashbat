@@ -2,7 +2,10 @@ import argparse
 from ipaddress import ip_address
 
 import dash
+import dash_core_components as dcc
 import dash_bootstrap_components as dbc
+from dash_core_components.Markdown import Markdown
+from dash_core_components.Slider import Slider
 import dash_html_components as html
 
 from dashbat.data.data_types import DATASET_NAMES, DatasetName
@@ -15,9 +18,16 @@ app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP, external_stylesheets]
 )
 
-
 app.layout = html.Div(
-    children=[html.H1("Hello World !"), html.H2("Bonjour le monde !")]
+    children=[
+        html.H1("Hello World !"),
+        html.H2("Bonjour le monde !"),
+        dcc.Checklist(
+            options=[{"label": label, "value": label} for label in ["1", "2", "3"]]
+        ),
+        dcc.Slider(min=0, max=200, value=20, step=10),
+        dcc.Input(type="text", placeholder="Voici un text input"),
+    ]
 )
 
 
