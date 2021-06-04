@@ -49,7 +49,7 @@ def get_num_contribution_per_type() -> pd.DataFrame:
     - publishedAt
     - Nombre contributions
     - authorZipCode
-    - Catégorie'
+    - Thème
     """
     return NUM_CONTRIBUTION_PER_TYPE
 
