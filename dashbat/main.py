@@ -9,13 +9,7 @@ from dash.dependencies import Input, Output
 from dash.development.base_component import Component
 
 from dashbat.data.data_types import DATASET_NAMES, DatasetName
-from dashbat.bar_graph import BarGraph
-from dashbat.figures import (
-    get_figure_contributions_per_theme,
-    get_figure_contributions_over_time,
-    get_figure_contributions_per_type,
-    get_map,
-)
+import dashbat.figures as dfig
 
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -28,7 +22,9 @@ app = dash.Dash(
 
 def _dataset_dropdown() -> Component:
     options = [{"value": id_, "label": name} for id_, name in DATASET_NAMES.items()]
-    return dcc.Dropdown(id="dataset-dropdown", options=options, value="organisation")
+    return dcc.Dropdown(
+        id="dataset-dropdown", options=options, value="organisation", className="my-2"
+    )
 
 
 def _column_dropdown() -> Component:
@@ -38,38 +34,33 @@ def _column_dropdown() -> Component:
     ]
 
     return dcc.Dropdown(
-        id="dataset-display-column", options=options, value="Nombre contributions"
+        id="dataset-display-column",
+        options=options,
+        value="Nombre contributions",
+        className="my-2",
     )
 
 
 def _map_group() -> Component:
-    return dbc.Row(
+    return html.Div(
         [
-            dbc.Col(
-                [
-                    dcc.Markdown(
-                        """
+            dcc.Markdown(
+                """
                         ## Contribution par département
                         Affichons le nombre de contributions par département.
                         """
-                    ),
-                    _dataset_dropdown(),
-                    _column_dropdown(),
-                ],
-                width={"size": 2, "offset": 2},
             ),
-            dbc.Col(
-                dcc.Graph(
-                    figure=get_map(
-                        dataset_name="organisation",
-                        display_column="Nombre contributions",
-                    ),
-                    id="map-graph",
+            _dataset_dropdown(),
+            _column_dropdown(),
+            dcc.Graph(
+                figure=dfig.get_map(
+                    dataset_name="organisation",
+                    display_column="Nombre contributions",
                 ),
-                width=6,
+                id="map-graph",
+                className="my-4",
             ),
         ],
-        className="my-5",
     )
 
 
@@ -78,34 +69,15 @@ app.layout = html.Div(
         dbc.NavbarSimple(
             brand="Le grand Dashbat", className="mb-6", color="primary", dark=True
         ),
-        _map_group(),
-        dbc.Row(
-            dbc.Col(
-                dcc.Graph(figure=get_figure_contributions_over_time()),
-                width={"size": 8, "offset": 2},
-            ),
-            className="my-5",
-        ),
-        dbc.Row(
-            dbc.Col(
-                dcc.Graph(figure=get_figure_contributions_per_type()),
-                width={"size": 8, "offset": 2},
-            ),
-            className="my-5",
-        ),
-        dbc.Row(
-            dbc.Col(
-                dcc.Graph(figure=get_figure_contributions_per_theme()),
-                width={"size": 8, "offset": 2},
-            ),
-            className="my-5",
-        ),
-        dbc.Row(
-            dbc.Col(
-                BarGraph(),
-                width={"size": 8, "offset": 2},
-            ),
-            className="my-5",
+        dbc.Col(
+            [
+                _map_group(),
+                dcc.Graph(figure=dfig.get_figure_contributions_over_time()),
+                dcc.Graph(figure=dfig.get_figure_contributions_per_type()),
+                dcc.Graph(figure=dfig.get_figure_contributions_per_theme()),
+                dcc.Graph(figure=dfig.get_figure_vancaces_lines_vs_remu()),
+            ],
+            width={"size": 8, "offset": 2},
         ),
     ]
 )
@@ -120,7 +92,7 @@ app.layout = html.Div(
     prevent_initial_call="True",
 )
 def _select_dataset_for_map(dataset_name: DatasetName, display_column) -> Component:
-    return get_map(dataset_name, display_column)
+    return dfig.get_map(dataset_name, display_column)
 
 
 def parse_args() -> argparse.ArgumentParser:

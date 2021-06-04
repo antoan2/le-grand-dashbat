@@ -7,6 +7,22 @@ import dashbat.data.data_layer as dal
 from dashbat.data.data_types import DatasetName
 
 
+def get_figure_vancaces_lines_vs_remu():
+    data = [
+        {"prenom": "Antoine", "vacances": 100},
+        {"prenom": "Line", "vacances": 100},
+    ]
+    return px.bar(
+        data,
+        x="prenom",
+        y="vacances",
+        labels={
+            "prenom": "Prénom",
+            "vacances": "Durée moyenne des vacances (jours)",
+        },
+    )
+
+
 def get_figure_contributions_per_theme():
     data = dal.get_num_contribution_per_theme()
     return px.bar(data, x="Thème", y="Nombre contributions")
