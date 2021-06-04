@@ -4,7 +4,7 @@ from urllib.request import urlopen
 import plotly.express as px
 
 import dashbat.data.data_layer as dal
-from dashbat.data.data_types import DatasetName
+from dashbat.data.data_types import DatasetName, DATASET_NAMES
 
 
 def get_figure_vancaces_lines_vs_remu():
@@ -20,12 +20,22 @@ def get_figure_vancaces_lines_vs_remu():
             "prenom": "Prénom",
             "vacances": "Durée moyenne des vacances (jours)",
         },
+        title="Comparaison des nombre de jours de congés Line vs Rémi",
     )
 
 
 def get_figure_contributions_per_theme():
     data = dal.get_num_contribution_per_theme()
-    return px.bar(data, x="Thème", y="Nombre contributions")
+    fig = px.bar(
+        data,
+        x="Thème",
+        y="Nombre contributions",
+        title="Nombre de contribution par thème",
+    )
+    tickvals = list(DATASET_NAMES.keys())
+    ticktext = list(DATASET_NAMES.values())
+    fig.update_xaxes(ticktext=ticktext, tickvals=tickvals)
+    return fig
 
 
 def get_figure_contributions_per_type():
