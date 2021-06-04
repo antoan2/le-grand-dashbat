@@ -21,16 +21,51 @@ for dataset_name in Dataset.get_dataset_names():
 
 
 def get_num_contribution_per_theme() -> pd.DataFrame:
+    """
+    Return a dataframe with the number of contributions per theme
+    - Thème
+    - Nombre contributions
+    """
     return NUM_CONTRIBUTION_PER_THEME
 
 
 def get_num_contribution_over_time() -> pd.DataFrame:
+    """
+    Return a dataframe with the number of contributions per theme and over time
+    - Date
+    - Thème
+    - publishedAt
+    - Nombre contributions
+    - authorType
+    - authorZipCode
+    """
     return NUM_CONTRIBUTION_OVER_TIME
 
 
 def get_num_contribution_per_type() -> pd.DataFrame:
+    """
+    Return a dataframe with the number of contributions per type of contributor
+    - Type de contributeur
+    - publishedAt
+    - Nombre contributions
+    - authorZipCode
+    - Catégorie'
+    """
     return NUM_CONTRIBUTION_PER_TYPE
 
 
 def get_map_per_theme(dataset_name: DatasetName) -> pd.DataFrame:
+    """
+    Return a dataframe with the number of contributions per departement.
+    An aggregate allows to get the number of contributions per 1 000 inhabitants.
+    - Departement
+    - Nombre contributions
+    - DEP
+    - NBARR
+    - NBCAN
+    - NBCOM
+    - PMUN
+    - PTOT
+    - Contributions 1 000 habitants
+    """
     return MAP_PER_THEME[dataset_name]

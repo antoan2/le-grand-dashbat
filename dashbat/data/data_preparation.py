@@ -42,7 +42,7 @@ def _get_merged_dataset() -> pd.DataFrame:
     dataframes = []
     for dataset_name in Dataset.get_dataset_names():
         local_df = Dataset(dataset_name).data[keys]
-        local_df["Catégorie"] = dataset_name
+        local_df["Thème"] = dataset_name
         dataframes.append(local_df)
     return cast(pd.DataFrame, pd.concat(dataframes))
 
@@ -50,7 +50,7 @@ def _get_merged_dataset() -> pd.DataFrame:
 def prepare_num_contribution_over_time() -> pd.DataFrame:
     merged = _get_merged_dataset()
     merged["Date"] = merged.publishedAt.apply(lambda x: x.date())
-    res = merged.groupby(["Date", "Catégorie"]).count().reset_index()
+    res = merged.groupby(["Date", "Thème"]).count().reset_index()
     return res.rename(columns={"authorId": "Nombre contributions"})
 
 

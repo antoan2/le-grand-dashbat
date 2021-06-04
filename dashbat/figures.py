@@ -26,7 +26,7 @@ def get_figure_contributions_per_type():
 
 def get_figure_contributions_over_time():
     data = dal.get_num_contribution_over_time()
-    fig = px.line(data, x="Date", y="Nombre contributions", color="Catégorie")
+    fig = px.line(data, x="Date", y="Nombre contributions", color="Thème")
     fig.update_layout(hovermode="x unified")
     return fig
 
