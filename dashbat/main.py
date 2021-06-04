@@ -4,6 +4,7 @@ from ipaddress import ip_address
 import plotly.express as px
 
 import dash
+from dash.dependencies import Output, Input
 from dash.development.base_component import Component
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
@@ -21,16 +22,18 @@ app = dash.Dash(
 )
 
 
-def _dataset_dropdown() -> Component:
+def _theme_dropdown() -> Component:
     options = [{"value": id_, "label": name} for id_, name in DATASET_NAMES.items()]
-    return dcc.Dropdown(options=options, value="transition", className="my-3")
+    return dcc.Dropdown(
+        id="theme-dropdown", options=options, value="transition", className="my-3"
+    )
 
 
 def _map_group() -> Component:
     return html.Div(
         [
-            _dataset_dropdown(),
-            dcc.Graph(figure=dfig.get_map_contributions_by_location()),
+            _theme_dropdown(),
+            dcc.Graph(id="figure-map", figure=dfig.get_map_contributions_by_location()),
         ],
     )
 
@@ -57,6 +60,16 @@ app.layout = html.Div(
         ),
     ]
 )
+
+
+@app.callback(
+    Output("figure-map", "figure"),
+    Input("theme-dropdown", "value"),
+    prevent_initial_call="True",
+)
+def _select_dataset_for_map(theme: DatasetName) -> Component:
+    print(theme)
+    return dfig.get_map_contributions_by_location()
 
 
 def parse_args() -> argparse.ArgumentParser:
