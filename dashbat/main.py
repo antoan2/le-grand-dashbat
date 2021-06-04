@@ -55,6 +55,23 @@ def _map_group() -> Component:
     )
 
 
+def _intro() -> Component:
+    intro_text = """
+    Cette application démo a été réalisée dans le cadre des ateliers [BlueHats](https://github.com/blue-hats/ateliers)
+    le [04/06/2021](https://github.com/blue-hats/ateliers/blob/main/ateliers.org#4-juin--pr%C3%A9sentation-du-framework-dash-plotlyjs-react-et-flask)
+    afin de présenter le framework [Dash](https://plotly.com/dash/).
+
+    Contributeurs :
+    - [Jordan Munoz](https://github.com/jmunozz)
+    - [Line Rahal](https://github.com/lrahal)
+    - [Rémi Delbouys](https://github.com/remidbs)
+    - [Antoine Biard](https://github.com/antoan2)
+
+    Le code est disponible sur github : [le-grand-dashbat](https://github.com/antoan2/le-grand-dashbat/)
+    """
+    return html.Div([html.H2("Introduction"), dcc.Markdown(intro_text)])
+
+
 app.layout = html.Div(
     children=[
         dbc.NavbarSimple(
@@ -62,6 +79,7 @@ app.layout = html.Div(
         ),
         dbc.Col(
             [
+                _intro(),
                 html.H2("Carte des contributions par départements", className="my-2"),
                 _map_group(),
                 html.H2(
