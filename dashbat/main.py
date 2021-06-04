@@ -16,7 +16,9 @@ app = dash.Dash(
 )
 
 
-app.layout = html.Div()
+app.layout = html.Div(
+    children=[html.H1("Hello World !"), html.H2("Bonjour le monde !")]
+)
 
 
 def parse_args() -> argparse.ArgumentParser:
