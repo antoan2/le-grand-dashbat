@@ -28,6 +28,7 @@ app.layout = html.Div(
         dbc.Col(
             [
                 html.H2("Graphiques divers sur les données du grand débat"),
+                dcc.Graph(figure=dfig.get_figure_contributions_per_type()),
                 dcc.Graph(figure=dfig.get_figure_contributions_per_theme()),
                 html.H2("Un premier graphique"),
                 dcc.Graph(figure=dfig.get_figure_vancaces_lines_vs_remu()),

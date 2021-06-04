@@ -33,3 +33,16 @@ def get_figure_contributions_per_theme():
     ticktext = list(DATASET_NAMES.values())
     fig.update_xaxes(ticktext=ticktext, tickvals=tickvals)
     return fig
+
+
+def get_figure_contributions_per_type():
+    data = dal.get_num_contribution_per_type()
+    fig = px.bar(
+        data,
+        x="Type de contributeur",
+        y="Nombre contributions",
+        text="Nombre contributions",
+        title="Nombre de contributions par type de contributeur",
+    )
+    fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
+    return fig
