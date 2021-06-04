@@ -20,13 +20,9 @@ app = dash.Dash(
 
 app.layout = html.Div(
     children=[
-        html.H1("Hello World !"),
-        html.H2("Bonjour le monde !"),
-        dcc.Checklist(
-            options=[{"label": label, "value": label} for label in ["1", "2", "3"]]
+        dbc.NavbarSimple(
+            brand="Le grand Dashbat", className="mb-6", color="primary", dark=True
         ),
-        dcc.Slider(min=0, max=200, value=20, step=10),
-        dcc.Input(type="text", placeholder="Voici un text input"),
     ]
 )
 
