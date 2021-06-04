@@ -1,3 +1,4 @@
+git branch -D live-code
 git checkout -b live-code
 git rm dashbat/bar_graph.py
 git rm dashbat/figures.py
