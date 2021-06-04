@@ -69,8 +69,7 @@ def get_figure_contributions_over_time():
     return fig
 
 
-def get_map_contributions_by_location(theme: DatasetName):
-    display_column = "Nombre contributions"
+def get_map_contributions_by_location(theme: DatasetName, display_column: str):
     data = dal.get_map_per_theme(theme)
 
     fig = px.choropleth_mapbox(

@@ -29,10 +29,25 @@ def _theme_dropdown() -> Component:
     )
 
 
+def _column_dropdown() -> Component:
+    options = [
+        {"value": column, "label": column}
+        for column in ["Nombre contributions", "Contributions 1 000 habitants"]
+    ]
+
+    return dcc.Dropdown(
+        id="display-column-dropdown",
+        options=options,
+        value="Nombre contributions",
+        className="my-2",
+    )
+
+
 def _map_group() -> Component:
     return html.Div(
         [
             _theme_dropdown(),
+            _column_dropdown(),
             dcc.Graph(
                 id="figure-map",
             ),
@@ -66,10 +81,15 @@ app.layout = html.Div(
 
 @app.callback(
     Output("figure-map", "figure"),
-    Input("theme-dropdown", "value"),
+    [
+        Input("theme-dropdown", "value"),
+        Input("display-column-dropdown", "value"),
+    ],
 )
-def _select_dataset_for_map(theme: DatasetName) -> Component:
-    return dfig.get_map_contributions_by_location(theme=theme)
+def _select_dataset_for_map(theme: DatasetName, display_column: str) -> Component:
+    return dfig.get_map_contributions_by_location(
+        theme=theme, display_column=display_column
+    )
 
 
 def parse_args() -> argparse.ArgumentParser:
