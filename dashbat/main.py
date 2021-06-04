@@ -4,10 +4,9 @@ from ipaddress import ip_address
 import plotly.express as px
 
 import dash
+from dash.development.base_component import Component
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-from dash_core_components.Markdown import Markdown
-from dash_core_components.Slider import Slider
 import dash_html_components as html
 
 from dashbat.data.data_types import DATASET_NAMES, DatasetName
@@ -20,6 +19,22 @@ external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP, external_stylesheets]
 )
+
+
+def _dataset_dropdown() -> Component:
+    options = [{"value": id_, "label": name} for id_, name in DATASET_NAMES.items()]
+    return dcc.Dropdown(options=options, value="transition", className="my-3")
+
+
+def _map_group() -> Component:
+    return html.Div(
+        [
+            _dataset_dropdown(),
+            dcc.Graph(figure=dfig.get_map_contributions_by_location()),
+        ],
+    )
+
+
 app.layout = html.Div(
     children=[
         dbc.NavbarSimple(
@@ -28,7 +43,7 @@ app.layout = html.Div(
         dbc.Col(
             [
                 html.H2("Carte des contributions par départements", className="my-2"),
-                dcc.Graph(figure=dfig.get_map_contributions_by_location()),
+                _map_group(),
                 html.H2(
                     "Graphiques divers sur les données du grand débat", className="my-2"
                 ),
