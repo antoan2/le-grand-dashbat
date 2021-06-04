@@ -4,7 +4,12 @@ from urllib.request import urlopen
 import plotly.express as px
 
 import dashbat.data.data_layer as dal
-from dashbat.data.data_types import DatasetName, DATASET_NAMES
+from dashbat.data.data_types import DATASET_NAMES, DatasetName
+
+with urlopen(
+    "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
+) as response:
+    DEPTS = json.load(response)
 
 
 def get_figure_vancaces_lines_vs_remu():
@@ -45,6 +50,7 @@ def get_figure_contributions_per_type():
         x="Type de contributeur",
         y="Nombre contributions",
         text="Nombre contributions",
+        title="Nombre de contributions par type de contributeur",
     )
     fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
     return fig
@@ -52,28 +58,30 @@ def get_figure_contributions_per_type():
 
 def get_figure_contributions_over_time():
     data = dal.get_num_contribution_over_time()
-    fig = px.line(data, x="Date", y="Nombre contributions", color="Thème")
+    fig = px.line(
+        data,
+        x="Date",
+        y="Nombre contributions",
+        color="Thème",
+        title="Nombre de contributions au cours du temps",
+    )
     fig.update_layout(hovermode="x unified")
     return fig
 
 
-def get_map(dataset_name: DatasetName, display_column: str = "Nombre contributions"):
-    data = dal.get_map_per_theme(dataset_name)
-
-    with urlopen(
-        "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
-    ) as response:
-        depts = json.load(response)
+def get_map_contributions_by_location(theme: DatasetName, display_column: str):
+    data = dal.get_map_per_theme(theme)
 
     fig = px.choropleth_mapbox(
         data,
-        geojson=depts,
+        geojson=DEPTS,
         featureidkey="properties.code",
         locations="Departement",
         color=display_column,
         mapbox_style="carto-positron",
         zoom=4,
-        center={"lat": 46, "lon": 2},
+        center={"lat": 47, "lon": 2},
         opacity=0.5,
+        title="Nombre de contributions par départements",
     )
-    return fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    return fig
