@@ -4,7 +4,7 @@ from urllib.request import urlopen
 import plotly.express as px
 
 import dashbat.data.data_layer as dal
-from dashbat.data.data_types import DATASET_NAMES
+from dashbat.data.data_types import DATASET_NAMES, DatasetName
 
 with urlopen(
     "https://france-geojson.gregoiredavid.fr/repo/departements.geojson"
@@ -69,10 +69,9 @@ def get_figure_contributions_over_time():
     return fig
 
 
-def get_map_contributions_by_location():
-    dataset_name = "transition"
+def get_map_contributions_by_location(theme: DatasetName):
     display_column = "Nombre contributions"
-    data = dal.get_map_per_theme(dataset_name)
+    data = dal.get_map_per_theme(theme)
 
     fig = px.choropleth_mapbox(
         data,
@@ -84,5 +83,6 @@ def get_map_contributions_by_location():
         zoom=4,
         center={"lat": 47, "lon": 2},
         opacity=0.5,
+        title="Nombre de contributions par départements",
     )
     return fig
