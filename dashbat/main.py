@@ -11,6 +11,7 @@ from dash_core_components.Slider import Slider
 import dash_html_components as html
 
 from dashbat.data.data_types import DATASET_NAMES, DatasetName
+import dashbat.figures as dfig
 
 
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -19,27 +20,17 @@ external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP, external_stylesheets]
 )
-DATA = [
-    {"prenom": "Rémi", "vacances": 3},
-    {"prenom": "Line", "vacances": 100},
-]
 app.layout = html.Div(
     children=[
         dbc.NavbarSimple(
-            brand="Le grand Dashbat", className="mb-6", color="primary", dark=True
+            brand="Le grand Dashbat", className="mb-5", color="primary", dark=True
         ),
-        html.H1("Graphs divers"),
-        dcc.Graph(
-            figure=px.bar(
-                DATA,
-                x="prenom",
-                y="vacances",
-                labels={
-                    "prenom": "Prénom",
-                    "vacances": "Durée moyenne des vacances (jours)",
-                },
-                title="Comparaison des nombre de jours de congés Line vs Rémi",
-            )
+        dbc.Col(
+            [
+                html.H2("Un premier graphique"),
+                dcc.Graph(figure=dfig.get_figure_vancaces_lines_vs_remu()),
+            ],
+            width={"size": 10, "offset": 1},
         ),
     ]
 )
