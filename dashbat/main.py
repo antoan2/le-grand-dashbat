@@ -35,7 +35,6 @@ def _map_group() -> Component:
             _theme_dropdown(),
             dcc.Graph(
                 id="figure-map",
-                figure=dfig.get_map_contributions_by_location("transition"),
             ),
         ],
     )
@@ -68,7 +67,6 @@ app.layout = html.Div(
 @app.callback(
     Output("figure-map", "figure"),
     Input("theme-dropdown", "value"),
-    prevent_initial_call="True",
 )
 def _select_dataset_for_map(theme: DatasetName) -> Component:
     return dfig.get_map_contributions_by_location(theme=theme)
