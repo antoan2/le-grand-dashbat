@@ -1,6 +1,8 @@
 import argparse
 from ipaddress import ip_address
 
+import plotly.express as px
+
 import dash
 import dash_core_components as dcc
 import dash_bootstrap_components as dbc
@@ -17,11 +19,27 @@ external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 app = dash.Dash(
     __name__, external_stylesheets=[dbc.themes.BOOTSTRAP, external_stylesheets]
 )
-
+DATA = [
+    {"prenom": "Rémi", "vacances": 3},
+    {"prenom": "Line", "vacances": 100},
+]
 app.layout = html.Div(
     children=[
         dbc.NavbarSimple(
             brand="Le grand Dashbat", className="mb-6", color="primary", dark=True
+        ),
+        html.H1("Graphs divers"),
+        dcc.Graph(
+            figure=px.bar(
+                DATA,
+                x="prenom",
+                y="vacances",
+                labels={
+                    "prenom": "Prénom",
+                    "vacances": "Durée moyenne des vacances (jours)",
+                },
+                title="Comparaison des nombre de jours de congés Line vs Rémi",
+            )
         ),
     ]
 )
