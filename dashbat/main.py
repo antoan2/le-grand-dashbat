@@ -27,11 +27,15 @@ app.layout = html.Div(
         ),
         dbc.Col(
             [
-                html.H2("Graphiques divers sur les données du grand débat"),
+                html.H2("Carte des contributions par départements", className="my-2"),
+                dcc.Graph(figure=dfig.get_map_contributions_by_location()),
+                html.H2(
+                    "Graphiques divers sur les données du grand débat", className="my-2"
+                ),
                 dcc.Graph(figure=dfig.get_figure_contributions_over_time()),
                 dcc.Graph(figure=dfig.get_figure_contributions_per_type()),
                 dcc.Graph(figure=dfig.get_figure_contributions_per_theme()),
-                html.H2("Un premier graphique"),
+                html.H2("Un premier graphique", className="my-2"),
                 dcc.Graph(figure=dfig.get_figure_vancaces_lines_vs_remu()),
             ],
             width={"size": 10, "offset": 1},
