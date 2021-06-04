@@ -46,3 +46,16 @@ def get_figure_contributions_per_type():
     )
     fig.update_traces(texttemplate="%{text:.2s}", textposition="outside")
     return fig
+
+
+def get_figure_contributions_over_time():
+    data = dal.get_num_contribution_over_time()
+    fig = px.line(
+        data,
+        x="Date",
+        y="Nombre contributions",
+        color="Thème",
+        title="Nombre de contributions au cours du temps",
+    )
+    fig.update_layout(hovermode="x unified")
+    return fig
